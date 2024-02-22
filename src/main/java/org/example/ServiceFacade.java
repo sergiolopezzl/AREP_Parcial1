@@ -13,44 +13,6 @@ public class ServiceFacade {
             "<head>\n" +
             "    <meta charset=\"UTF-8\">\n" +
             "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n" +
-            "    <title>Interactuar con ReflectiveChatGTP</title>\n" +
-            "</head>\n" +
-            "<body>\n" +
-            "    <h1>Interactuar con ReflectiveChatGTP</h1>\n" +
-            "    <div>\n" +
-            "        <label for=\"commandInput\">Ingrese su comando:</label><br>\n" +
-            "        <input type=\"text\" id=\"commandInput\"><br><br>\n" +
-            "        <button onclick=\"sendCommand()\">Enviar Comando</button>\n" +
-            "    </div>\n" +
-            "    <div id=\"response\"></div>\n" +
-            "\n" +
-            "    <script>\n" +
-            "        function sendCommand() {\n" +
-            "            const commandInput = document.getElementById('commandInput').value;\n" +
-            "            const url = `http://localhost:45000/compreflex?comando=${encodeURIComponent(commandInput)}`;\n" +
-            "\n" +
-            "            fetch(url)\n" +
-            "                .then(response => {\n" +
-            "                    if (!response.ok) {\n" +
-            "                        throw new Error('Hubo un problema con la solicitud.');\n" +
-            "                    }\n" +
-            "                    return response.text();\n" +
-            "                })\n" +
-            "                .then(data => {\n" +
-            "                    document.getElementById('response').innerText = data;\n" +
-            "                })\n" +
-            "                .catch(error => {\n" +
-            "                    console.error('Error:', error);\n" +
-            "                    document.getElementById('response').innerText = 'Error al enviar el comando.';\n" +
-            "                });\n" +
-            "        }\n" +
-            "    </script>\n" +
-            "</body>\n" +
-            "</html>\n" +
-            "<html lang=\"en\">\n" +
-            "<head>\n" +
-            "    <meta charset=\"UTF-8\">\n" +
-            "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n" +
             "    <title>ChatGTP</title>\n" +
             "</head>\n" +
             "<body>\n" +
