@@ -33,5 +33,5 @@ Una vez que el servidor esté en funcionamiento, acceda a
 http://localhost:35000/cliente desde su navegador para comenzar a escribir comandos.
 
 ### Pruebas
-* Se realizó la petición a http://localhost:35000/index.html
-![prueba1.png](src/main/resources/img/prueba1.png)
+* Se realizó la petición a http://localhost:35000/cliente
+![prueba1.png](src/main/resources/img/prueba1.PNG)
