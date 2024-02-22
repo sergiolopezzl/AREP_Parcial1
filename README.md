@@ -35,3 +35,5 @@ http://localhost:35000/cliente desde su navegador para comenzar a escribir coman
 ### Pruebas
 * Se realizó la petición a http://localhost:35000/cliente
 ![prueba1.png](src/main/resources/img/prueba1.PNG)
+* Si esta recibiendo el servidor pero esta fallando un poco de la logica de los metodos de la calculadora
+  ![prueba1.png](src/main/resources/img/prueba2.PNG)

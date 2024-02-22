@@ -4,7 +4,11 @@ import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.*;
-import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.List;
+import java.util.ArrayList;
+
 
 public class ReflectiveChatGTP {
 
@@ -33,23 +37,32 @@ public class ReflectiveChatGTP {
                 if ("/compreflex".equals(path)) {
                     System.out.println(query);
                     String[] queryParams = query.split("="); // Dividir la consulta por el signo "="
-                    String[] commandAndParams = queryParams[1].split("\\("); // Dividir por el paréntesis para obtener el comando y los parámetros
-                    String command = commandAndParams[0]; // Obtener el comando
-                    String[] params = commandAndParams[1].split(",|\\)"); // Dividir los parámetros y quitar el paréntesis final
+                    if (queryParams.length >= 2) {
+                        String commandAndParams = queryParams[1];
+                        Matcher matcher = Pattern.compile("([^,()]+)").matcher(commandAndParams);
+                        List<String> params = new ArrayList<>();
+                        while (matcher.find()) {
+                            params.add(matcher.group());
+                        }
 
-                    Object result = null;
+                        String command = params.remove(0); // El primer elemento es el comando
 
-                    if (command.startsWith("binaryInvoke")) {
-                        result = binaryInvoke(params[0], params[1], params[2], params[3], params[4], params[5]);
-                    } else if (command.startsWith("invoke")) {
-                        String className = params[0];
-                        String methodName = params[1];
-                        result = invoke(className, methodName);
-                    } else if (command.startsWith("unaryInvoke")) {
-                        result = unaryInvoke(params[0], params[1], params[2], params[3]);
+                        Object result = null;
+
+                        if (command.startsWith("binaryInvoke")) {
+                            result = binaryInvoke(params.get(0), params.get(1), params.get(2), params.get(3), params.get(4), params.get(5));
+                        } else if (command.startsWith("invoke")) {
+                            String className = params.get(0);
+                            String methodName = params.get(1);
+                            result = invoke(className, methodName);
+                        } else if (command.startsWith("unaryInvoke")) {
+                            result = unaryInvoke(params.get(0), params.get(1), params.get(2), params.get(3));
+                        }
+
+                        out.println("HTTP/1.1 200 OK\r\nContent-Type: application/json\r\n\r\n" + (result != null ? result.toString() : ""));
+                    } else {
+                        out.println("HTTP/1.1 400 Bad Request\r\nContent-Type: text/plain\r\n\r\nInvalid query parameters");
                     }
-
-                    out.println("HTTP/1.1 200 OK\r\nContent-Type: application/json\r\n\r\n" + result.toString());
                 } else {
                     out.println("HTTP/1.1 404 Not Found\r\nContent-Type: text/plain\r\n\r\n404 Not Found");
                 }
@@ -58,6 +71,7 @@ public class ReflectiveChatGTP {
             e.printStackTrace();
         }
     }
+
 
 
 
@@ -123,4 +137,5 @@ public class ReflectiveChatGTP {
         }
     }
 }
+
 
