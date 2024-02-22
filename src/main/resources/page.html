@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reflective ChatGPT</title>
+</head>
+<body>
+<h1>Reflective ChatGPT</h1>
+
+<div id="response"></div>
+
+<input type="text" id="commandInput" placeholder="Ingrese su comando aquí">
+<button onclick="sendCommand()">Enviar</button>
+
+<script>
+    function sendCommand() {
+        const commandInput = document.getElementById('commandInput').value;
+        const url = `http://localhost:35000/consulta?comando=${encodeURIComponent(commandInput)}`;
+
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                displayResponse(data);
+            })
+            .catch(error => {
+                console.error('Error al enviar el comando:', error);
+                displayResponse({ error: 'Error al enviar el comando' });
+            });
+    }
+
+    function displayResponse(responseData) {
+        const responseDiv = document.getElementById('response');
+        responseDiv.innerHTML = ''; // Limpiar contenido anterior
+
+        if (responseData.error) {
+            responseDiv.innerText = 'Error: ' + responseData.error;
+        } else {
+            // Mostrar los datos de la respuesta
+            // Aquí puedes construir la visualización de los datos devueltos por el servidor
+            // por ejemplo, podrías mostrar los campos y métodos de una clase, o el resultado de una invocación de método.
+        }
+    }
+</script>
+</body>
+</html>
