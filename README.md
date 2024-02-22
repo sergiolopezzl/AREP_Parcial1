@@ -1,4 +1,6 @@
+
 # AREP_parcial1
+## SERGIO DANIEL LOPEZ VARGAS
 ### Instrucciones de Ejecución
 * Clone el repositorio desde GitHub:
 
