@@ -4,11 +4,10 @@ import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.List;
-import java.util.ArrayList;
-
 
 public class ReflectiveChatGTP {
 
@@ -25,7 +24,7 @@ public class ReflectiveChatGTP {
         }
     }
 
-    private static void handleRequest(Socket clientSocket) {
+        private static void handleRequest(Socket clientSocket) {
         try (BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
              PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true)) {
 
@@ -35,8 +34,8 @@ public class ReflectiveChatGTP {
                 String path = uri.getPath();
                 String query = uri.getQuery();
                 if ("/compreflex".equals(path)) {
-                    System.out.println(query);
-                    String[] queryParams = query.split("="); // Dividir la consulta por el signo "="
+                    System.out.println("Query: " + query);
+                    String[] queryParams = query.split("=");
                     if (queryParams.length >= 2) {
                         String commandAndParams = queryParams[1];
                         Matcher matcher = Pattern.compile("([^,()]+)").matcher(commandAndParams);
@@ -45,17 +44,15 @@ public class ReflectiveChatGTP {
                             params.add(matcher.group());
                         }
 
-                        String command = params.remove(0); // El primer elemento es el comando
+                        String command = params.remove(0);
 
                         Object result = null;
 
-                        if (command.startsWith("binaryInvoke")) {
+                        if (command.startsWith("binaryInvoke") && params.size() == 6) {
                             result = binaryInvoke(params.get(0), params.get(1), params.get(2), params.get(3), params.get(4), params.get(5));
-                        } else if (command.startsWith("invoke")) {
-                            String className = params.get(0);
-                            String methodName = params.get(1);
-                            result = invoke(className, methodName);
-                        } else if (command.startsWith("unaryInvoke")) {
+                        } else if (command.startsWith("invoke") && params.size() == 2) {
+                            result = invoke(params.get(0), params.get(1));
+                        } else if (command.startsWith("unaryInvoke") && params.size() == 4) {
                             result = unaryInvoke(params.get(0), params.get(1), params.get(2), params.get(3));
                         }
 
@@ -71,9 +68,6 @@ public class ReflectiveChatGTP {
             e.printStackTrace();
         }
     }
-
-
-
 
     private static Object invoke(String className, String methodName) {
         try {
@@ -137,5 +131,3 @@ public class ReflectiveChatGTP {
         }
     }
 }
-
-
